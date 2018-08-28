@@ -1,0 +1,66 @@
+server:
+  port: 8080
+management:
+  security:
+    enabled: false
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    stream:
+      default-binder: rabbit
+---
+spring:
+  profiles: dev
+spring:
+  resources:
+    static-locations: classpath:/META-INF/resources, classpath:/resources, classpath:/static, classpath:/public, file:morty/frontend/dist
+---
+spring:
+  profiles: cloud
+spring:
+  rabbitmq:
+    host: ${cloudamqp.credentials.http_api_uri:localhost}
+  cloud:
+    stream:
+      default-binder: rabbit
+      rabbit:
+        bindings:
+          meeseeks:
+            consumer:
+              ttl: 5000
+          mcdonalds:
+            consumer:
+              ttl: 5000
+          rick:
+            consumer:
+              ttl: 5000
+          microverse:
+            consumer:
+              ttl: 5000
+---
+spring:
+  profiles: kubernetes
+spring:
+  rabbitmq:
+    host: rabbitmq
+  cloud:
+    stream:
+      default-binder: rabbit
+      rabbit:
+        bindings:
+          meeseeks:
+            consumer:
+              ttl: 5000
+          mcdonalds:
+            consumer:
+              ttl: 5000
+          rick:
+            consumer:
+              ttl: 5000
+          microverse:
+            consumer:
+              ttl: 5000

@@ -1,0 +1,42 @@
+spring:
+  profiles: cloud
+
+server:
+  port: ${PORT:8081}
+management:
+  security:
+    enabled: false
+
+spring:
+  rabbitmq:
+    host: ${cloudamqp.credentials.http_api_uri:localhost}
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    stream:
+      default-binder: rabbit
+      bindings:
+        meeseeks:
+          group: szechuan-finder
+---
+spring:
+  profiles: kubernetes
+
+server:
+  port: ${PORT:8080}
+management:
+  security:
+    enabled: false
+spring:
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    stream:
+      default-binder: rabbit
+      bindings:
+        meeseeks:
+          group: szechuan-finder

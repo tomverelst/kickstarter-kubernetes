@@ -1,0 +1,8 @@
+Dockerfile
+Dockerfile.solution
+Dockerfile.old
+docker-compose.yml
+docker-compose.solution.yml
+docker-compose.swarm.yml
+docker-compose.old.yml
+fakecoin.dab
