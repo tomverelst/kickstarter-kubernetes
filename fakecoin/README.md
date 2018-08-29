@@ -37,7 +37,7 @@ Put the following key values in the config map:
 
 - SPRING_RABBIT_HOST=rabbitmq
 
-Load this value into the 
+Load this value into the environment variables
 
 ## UI
 

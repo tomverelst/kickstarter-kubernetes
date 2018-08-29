@@ -2,6 +2,7 @@ apiVersion: extensions/v1beta1
 kind: ReplicaSet
 metadata:
   labels:
+    app: rick-n-morty
     component: rabbitmq
   name: rabbitmq
 spec:
