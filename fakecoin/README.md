@@ -12,7 +12,7 @@ Label everything with `app=fakecoin` and a label `component`
 
 Create the following resources for the rabbitmq service:
 
-- A **Deployment** named `rabbitmq`
+- A **Deployment** named `rabbitmq` with image `rabbitmq:3.7.4-management`
 - A **Service** named `rabbitmq`
 - A **Persistent Volume** named `rabbitmq-pv`
 - A **Persistent Volume Claim** named `rabbitmq-pvc`, 
@@ -29,7 +29,7 @@ Make the following service ports available:
 
 Create the following resources for the fakecoin-server application:
 
-- A **Deployment** named `fakecoin-server`
+- A **Deployment** named `fakecoin-server` with image `tomverelst/fakecoin-server`
 - A **Service** named `fakecoin-server`
 - A **Config Map** named `fakecoin-server`
 
@@ -43,7 +43,7 @@ Load this value into the
 
 Create the following resources for the fakecoin-ui application:
 
-- A **Deployment** named `fakecoin-ui`
+- A **Deployment** named `fakecoin-ui`  with image `tomverelst/fakecoin-ui`
 - A **Service** named `fakecoin-ui`
 
 Configure the application through environment variables:
