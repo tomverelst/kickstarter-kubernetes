@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    component: fakecoin-ui
+    app: fakecoin
+  name: fakecoin-ui
+spec:
+  selector:
+    matchLabels:
+      component: fakecoin-ui
+      app: fakecoin
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: fakecoin-ui
+        app: fakecoin
+    spec:
+      containers:
+      - name: fakecoin-ui
+        image: tomverelst/fakecoin-ui
+        ports:
+        - containerPort: 3000
+        env:
+        - name: RABBITMQ_URL
+          value: "amqp://rabbitmq:5672"
+        - name: FAKECOIN_HOST
+          value: fakecoin-server
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    component: fakecoin-ui
+    app: fakecoin
+  name: fakecoin-ui
+spec:
+  ports:
+  - name: http
+    port: 3000
+    targetPort: 3000
+  selector:
+    component: fakecoin-ui
+    app: fakecoin

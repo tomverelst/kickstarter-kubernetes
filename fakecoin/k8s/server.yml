@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    component: fakecoin-server
+    app: fakecoin
+  name: fakecoin-server
+spec:
+  selector:
+    matchLabels:
+      component: fakecoin-server
+      app: fakecoin
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: fakecoin-server
+        app: fakecoin
+    spec:
+      containers:
+      - name: fakecoin-server
+        image: tomverelst/fakecoin-server
+        ports:
+          - containerPort: 8080
+
+        env:
+        - name: SPRING_RABBITMQ_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: host
+              name: fakecoin-server
+        - name: SPRING_RABBITMQ_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: port
+              name: fakecoin-server
+        - name: SPRING_RABBITMQ_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: rabbitmq-credentials
+        - name: SPRING_RABBITMQ_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: rabbitmq-credentials
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    component: fakecoin-server
+    app: fakecoin
+  name: fakecoin-server
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+  selector:
+    component: fakecoin-server
+    app: fakecoin
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fakecoin-server
+data:
+  host: "rabbitmq"
+  port: "5672"
